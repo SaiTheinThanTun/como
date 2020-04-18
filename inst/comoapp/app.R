@@ -209,9 +209,12 @@ ui <- function(request) {
                                                     )
                                                   ),
                                                   div(class = "box_outputs", h4("Model Output Table")),
-                                                  DTOutput("table_results")
-                                                  
-                                                  
+                                                  DTOutput("table_results"),
+                                                  div(class = "box_outputs", h4("Reproduction Number")),
+                                                  fluidRow(
+                                                    column(6, highchartOutput("Rt_plot", height = "350px"), br()
+                                                    )
+                                                  )
                                  )
                         )
              )

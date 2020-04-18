@@ -586,6 +586,15 @@ process_ode_outcome <- function(out){
   colnames(MORTDF)<-c("Age","day30","day60","day90","day120")
   MORT1<-melt(MORTDF, id.vars="Age",measure.vars = c("day30","day60","day90","day120"))
   
+  ##########################   CALCULATE Rt  
+  Rt<-c()
+  
+  #for (i in (1/parameters["nui"]+1):length(time)){
+  for (i in 1:length(time)){
+    Rt[i]<-cumsum(sum(parameters["gamma"]*out[i,(Eindex+1)]))/cumsum(sum(parameters["gamma"]*out[(i-1/parameters["nui"]),(Eindex+1)]))
+  }
+  
+  
   # END Placeholder for Ricardo/Lisa code (DO NOT EDIT) ----
   
   # Export in a cohesive format ----
@@ -608,6 +617,7 @@ process_ode_outcome <- function(out){
   results$death_untreated_hospital <- round(cinc_mort_HC1)
   results$death_untreated_icu <- round(cinc_mort_ICUC1)
   results$death_untreated_ventilator <- round(cinc_mort_VentC1)
+  results$Rt <- Rt
   
   return(results)
 }
